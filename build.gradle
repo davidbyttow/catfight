@@ -9,13 +9,18 @@ buildscript {
     }
 }
 
+plugins {
+    id "net.ltgt.apt" version "0.10" apply false
+}
+
 allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
+    apply plugin: "net.ltgt.apt"
 
     version = '1.0'
     ext {
-        appName = "gdx-test"
+        appName = "catfight"
         gdxVersion = '1.9.6'
         roboVMVersion = '2.3.1'
         box2DLightsVersion = '1.4'
@@ -29,6 +34,9 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
+
+    dependencies {
+    }
 }
 
 project(":desktop") {
@@ -41,6 +49,8 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-bullet-platform:$gdxVersion:natives-desktop"
+        compile "com.google.dagger:dagger:2.11"
+        apt "com.google.dagger:dagger-compiler:2.11"
     }
 }
 
@@ -53,6 +63,8 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-bullet:$gdxVersion"
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
+        compile "com.google.dagger:dagger:2.11"
+        apt "com.google.dagger:dagger-compiler:2.11"
     }
 }
 

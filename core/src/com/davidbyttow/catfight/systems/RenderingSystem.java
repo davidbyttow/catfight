@@ -1,12 +1,15 @@
-package com.davidbyttow.gdxtest;
+package com.davidbyttow.catfight.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import com.davidbyttow.catfight.components.TextureComponent;
+import com.davidbyttow.catfight.components.TransformComponent;
 
 import java.util.Comparator;
 
@@ -14,7 +17,6 @@ import static com.badlogic.ashley.core.Family.all;
 
 public class RenderingSystem extends IteratingSystem {
   static final float FRUSTUM_WIDTH = 10;
-  static final float FRUSTUM_HEIGHT = FRUSTUM_WIDTH * (600.f / 800.f);
   static final float PIXELS_TO_METERS = 1.0f / 32.0f;
 
   private SpriteBatch batch;
@@ -42,8 +44,9 @@ public class RenderingSystem extends IteratingSystem {
 
     this.batch = batch;
 
-    cam = new OrthographicCamera(FRUSTUM_WIDTH, FRUSTUM_HEIGHT);
-    cam.position.set(FRUSTUM_WIDTH / 2, FRUSTUM_HEIGHT / 2, 0);
+    float height = FRUSTUM_WIDTH * Gdx.graphics.getHeight() / Gdx.graphics.getWidth();
+    cam = new OrthographicCamera(FRUSTUM_WIDTH, height);
+    cam.position.set(FRUSTUM_WIDTH * 0.5f, height * 0.5f, 0);
   }
 
   @Override

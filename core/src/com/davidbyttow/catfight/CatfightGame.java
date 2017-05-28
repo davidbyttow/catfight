@@ -1,11 +1,12 @@
-package com.davidbyttow.gdxtest;
+package com.davidbyttow.catfight;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.davidbyttow.catfight.screens.GameScreen;
 
-public class GdxTestGame extends Game {
+public class CatfightGame extends Game {
 	public SpriteBatch batcher;
 
 	@Override

@@ -1,4 +1,4 @@
-package com.davidbyttow.gdxtest;
+package com.davidbyttow.catfight.components;
 
 import com.badlogic.ashley.core.Component;
 

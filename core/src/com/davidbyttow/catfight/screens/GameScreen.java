@@ -1,17 +1,21 @@
-package com.davidbyttow.gdxtest;
+package com.davidbyttow.catfight.screens;
 
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.ScreenAdapter;
+import com.davidbyttow.catfight.CatfightGame;
+import com.davidbyttow.catfight.GameWorld;
+import com.davidbyttow.catfight.systems.AnimationSystem;
+import com.davidbyttow.catfight.systems.CameraSystem;
+import com.davidbyttow.catfight.systems.RenderingSystem;
+import com.davidbyttow.catfight.systems.StateSystem;
 
 public class GameScreen extends ScreenAdapter {
 
-  private final GdxTestGame game;
   private final PooledEngine engine;
-  private final World world;
+  private final GameWorld gameWorld;
 
-  GameScreen(GdxTestGame game) {
-    this.game = game;
+  public GameScreen(CatfightGame game) {
     this.engine = new PooledEngine();
 
     engine.addSystem(new CameraSystem());
@@ -23,7 +27,7 @@ public class GameScreen extends ScreenAdapter {
       system.setProcessing(true);
     }
 
-    world = World.create(engine);
+    gameWorld = GameWorld.create(engine);
   }
 
   private void updateScreen(float delta) {

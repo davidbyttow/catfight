@@ -1,19 +1,25 @@
-package com.davidbyttow.gdxtest;
+package com.davidbyttow.catfight;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.davidbyttow.catfight.components.AnimationComponent;
+import com.davidbyttow.catfight.components.CameraComponent;
+import com.davidbyttow.catfight.components.StateComponent;
+import com.davidbyttow.catfight.components.TextureComponent;
+import com.davidbyttow.catfight.components.TransformComponent;
+import com.davidbyttow.catfight.systems.RenderingSystem;
 
-public class World {
+public class GameWorld {
   private final PooledEngine engine;
 
-  private World(PooledEngine engine) {
+  private GameWorld(PooledEngine engine) {
     this.engine = engine;
   }
 
-  static World create(PooledEngine engine) {
-    World world = new World(engine);
-    world.init();
-    return world;
+  public static GameWorld create(PooledEngine engine) {
+    GameWorld gameWorld = new GameWorld(engine);
+    gameWorld.init();
+    return gameWorld;
   }
 
   private void init() {

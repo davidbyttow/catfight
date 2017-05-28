@@ -1,4 +1,4 @@
-package com.davidbyttow.gdxtest;
+package com.davidbyttow.catfight.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
@@ -6,6 +6,9 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.davidbyttow.catfight.components.AnimationComponent;
+import com.davidbyttow.catfight.components.StateComponent;
+import com.davidbyttow.catfight.components.TextureComponent;
 
 public class AnimationSystem extends IteratingSystem {
   private ComponentMapper<TextureComponent> textureMapper;

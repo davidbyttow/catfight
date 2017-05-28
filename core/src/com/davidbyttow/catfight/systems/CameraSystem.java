@@ -1,9 +1,11 @@
-package com.davidbyttow.gdxtest;
+package com.davidbyttow.catfight.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.davidbyttow.catfight.components.CameraComponent;
+import com.davidbyttow.catfight.components.TransformComponent;
 
 public class CameraSystem extends IteratingSystem {
 

@@ -1,4 +1,4 @@
-package com.davidbyttow.gdxtest;
+package com.davidbyttow.catfight;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -17,7 +17,7 @@ public final class Assets {
   }
 
   public static void load() {
-    catTexture = loadTexture("core/assets/cat_idle.png");
+    catTexture = loadTexture("cat_idle.png");
     catIdle = new Animation<TextureRegion>(
         1, loadRegions(catTexture, 0, 1, 2, 3), Animation.PlayMode.LOOP);
   }
