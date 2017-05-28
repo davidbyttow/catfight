@@ -42,13 +42,13 @@ allprojects {
 project(":desktop") {
     apply plugin: "java"
 
-
     dependencies {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-bullet-platform:$gdxVersion:natives-desktop"
+        compile "com.google.code.findbugs:jsr305:3.0.0"
         compile "com.google.dagger:dagger:2.11"
         apt "com.google.dagger:dagger-compiler:2.11"
     }
@@ -57,14 +57,15 @@ project(":desktop") {
 project(":core") {
     apply plugin: "java"
 
-
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-bullet:$gdxVersion"
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
+        compile "com.google.code.findbugs:jsr305:3.0.0"
         compile "com.google.code.gson:gson:2.8.0"
         compile "com.google.dagger:dagger:2.11"
+        compile "com.google.guava:guava:22.0"
         apt "com.google.dagger:dagger-compiler:2.11"
     }
 }

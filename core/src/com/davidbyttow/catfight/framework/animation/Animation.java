@@ -10,12 +10,11 @@ public class Animation<T> {
   private final List<KeyFrame<T>> keyFrames;
   private final float duration;
 
-  Animation(List<KeyFrame<T>> keyFrames) {
+  public Animation(List<KeyFrame<T>> keyFrames) {
     this.keyFrames = keyFrames;
     this.duration = Streams.reduceToFloat(keyFrames.stream(), KeyFrame::getDuration);
     Preconditions.checkState(duration > 0);
   }
-
 
   public KeyFrame<T> getKeyFrame(float time) {
     // TODO(d): Support other play modes
