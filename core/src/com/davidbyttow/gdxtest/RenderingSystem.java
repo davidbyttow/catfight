@@ -14,7 +14,7 @@ import static com.badlogic.ashley.core.Family.all;
 
 public class RenderingSystem extends IteratingSystem {
   static final float FRUSTUM_WIDTH = 10;
-  static final float FRUSTUM_HEIGHT = 15;
+  static final float FRUSTUM_HEIGHT = FRUSTUM_WIDTH * (600.f / 800.f);
   static final float PIXELS_TO_METERS = 1.0f / 32.0f;
 
   private SpriteBatch batch;
@@ -69,14 +69,16 @@ public class RenderingSystem extends IteratingSystem {
       float height = tex.region.getRegionHeight();
       float originX = width * 0.5f;
       float originY = 0;
-      float x = t.pos.x;
+      float x = t.pos.x - originX;
       float y = t.pos.y;
+      float sx = t.scale.x * PIXELS_TO_METERS;
+      float sy = t.scale.y * PIXELS_TO_METERS;
 
       batch.draw(tex.region,
           x, y,
           originX, originY,
           width, height,
-          t.scale.x * PIXELS_TO_METERS, t.scale.y * PIXELS_TO_METERS,
+          sx, sy,
           MathUtils.radiansToDegrees * t.rotation);
     }
 
