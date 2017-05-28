@@ -18,12 +18,12 @@ public final class Assets {
 
   public static void load() {
     catTexture = loadTexture("cat_idle.png");
-    catIdle = new Animation<TextureRegion>(
+    catIdle = new Animation<>(
         1, loadRegions(catTexture, 0, 1, 2, 3), Animation.PlayMode.LOOP);
   }
 
   private static Array<TextureRegion> loadRegions(Texture texture, int ...indices) {
-    Array<TextureRegion> regions = new Array<TextureRegion>();
+    Array<TextureRegion> regions = new Array<>();
     for (int index : indices) {
       TextureRegion region = new TextureRegion(texture, index * 32, 0, 32, 32);
       regions.add(region);
