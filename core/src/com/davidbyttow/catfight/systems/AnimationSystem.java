@@ -4,11 +4,12 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.davidbyttow.catfight.components.AnimationComponent;
 import com.davidbyttow.catfight.components.StateComponent;
 import com.davidbyttow.catfight.components.TextureComponent;
+import com.davidbyttow.catfight.framework.animation.Animation;
+import com.davidbyttow.catfight.framework.animation.KeyFrame;
 
 public class AnimationSystem extends IteratingSystem {
   private ComponentMapper<TextureComponent> textureMapper;
@@ -34,7 +35,8 @@ public class AnimationSystem extends IteratingSystem {
     Animation<TextureRegion> animation = anim.animations.get(state.get());
 
     if (animation != null) {
-      tex.region = animation.getKeyFrame(state.time);
+      KeyFrame<TextureRegion> kf = animation.getKeyFrame(state.time);
+      tex.region = kf.getRef();
     }
 
     state.time += deltaTime;

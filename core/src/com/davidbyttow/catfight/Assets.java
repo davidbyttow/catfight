@@ -1,34 +1,53 @@
 package com.davidbyttow.catfight;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.utils.Array;
+import com.davidbyttow.catfight.framework.animation.Animation;
+import com.davidbyttow.catfight.framework.aseprite.FrameData;
+import com.davidbyttow.catfight.framework.aseprite.SpriteAnimations;
+import com.davidbyttow.catfight.framework.aseprite.SpriteSheetData;
+import com.davidbyttow.catfight.framework.json.Json;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.function.Function;
 
 public final class Assets {
 
   public static Texture catTexture;
+  private static SpriteSheetData catSpriteData;
 
   public static Animation<TextureRegion> catIdle;
+
+  public static void load() {
+    catTexture = loadTexture("cat_idle.png");
+
+
+    catSpriteData = loadSpriteSheet("cat_idle.json");
+    catIdle = SpriteAnimations.loadFromTag(catSpriteData, "idle", newRegionGenerator(catTexture));
+  }
 
   public static Texture loadTexture(String file) {
     return new Texture(Gdx.files.internal(file));
   }
 
-  public static void load() {
-    catTexture = loadTexture("cat_idle.png");
-    catIdle = new Animation<>(
-        1, loadRegions(catTexture, 0, 1, 2, 3), Animation.PlayMode.LOOP);
+  public static SpriteSheetData loadSpriteSheet(String file) {
+    return Json.readObject(loadFile(file), SpriteSheetData.class);
   }
 
-  private static Array<TextureRegion> loadRegions(Texture texture, int ...indices) {
-    Array<TextureRegion> regions = new Array<>();
-    for (int index : indices) {
-      TextureRegion region = new TextureRegion(texture, index * 32, 0, 32, 32);
-      regions.add(region);
+  private static Function<FrameData, TextureRegion> newRegionGenerator(Texture texture) {
+    return f -> new TextureRegion(texture, f.frame.x, f.frame.y, f.frame.w, f.frame.h);
+  }
+
+  private static FileReader loadFile(String file) {
+    try {
+      FileHandle fh = Gdx.files.internal(file);
+      return new FileReader(fh.file());
+    } catch (FileNotFoundException e) {
+      throw new RuntimeException(e);
     }
-    return regions;
   }
 
   private Assets() {}
