@@ -1,7 +1,6 @@
-package com.davidbyttow.catfight.components;
+package com.davidbyttow.catfight.framework.script;
 
 import com.badlogic.ashley.core.Component;
-import com.davidbyttow.catfight.scripts.EntityScript;
 
 import java.util.ArrayList;
 import java.util.List;

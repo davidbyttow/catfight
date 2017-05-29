@@ -9,14 +9,15 @@ import com.davidbyttow.catfight.components.AnimationComponent;
 import com.davidbyttow.catfight.components.TextureComponent;
 import com.davidbyttow.catfight.framework.animation.Animation;
 import com.davidbyttow.catfight.framework.animation.KeyFrame;
+import com.davidbyttow.catfight.framework.common.SystemPriorities;
 
 public class AnimationSystem extends IteratingSystem {
   private ComponentMapper<TextureComponent> textureMapper;
   private ComponentMapper<AnimationComponent> animationMapper;
 
   public AnimationSystem() {
-    super(Family.all(TextureComponent.class,
-        AnimationComponent.class).get());
+    super(Family.all(TextureComponent.class, AnimationComponent.class).get(),
+        SystemPriorities.POST_TICK);
 
     textureMapper = ComponentMapper.getFor(TextureComponent.class);
     animationMapper = ComponentMapper.getFor(AnimationComponent.class);

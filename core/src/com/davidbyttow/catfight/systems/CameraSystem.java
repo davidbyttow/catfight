@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.davidbyttow.catfight.components.CameraComponent;
 import com.davidbyttow.catfight.components.TransformComponent;
+import com.davidbyttow.catfight.framework.common.SystemPriorities;
 
 public class CameraSystem extends IteratingSystem {
 
@@ -13,7 +14,7 @@ public class CameraSystem extends IteratingSystem {
   private ComponentMapper<CameraComponent> cameraMapper;
 
   public CameraSystem() {
-    super(Family.all(CameraComponent.class).get());
+    super(Family.all(CameraComponent.class).get(), SystemPriorities.PRE_RENDER);
 
     transformMapper = ComponentMapper.getFor(TransformComponent.class);
     cameraMapper = ComponentMapper.getFor(CameraComponent.class);
@@ -33,6 +34,6 @@ public class CameraSystem extends IteratingSystem {
       return;
     }
 
-//    cam.camera.position.y = Math.max(cam.camera.position.y, target.pos.y);
+//    cam.camera.position.x = target.pos.x;
   }
 }

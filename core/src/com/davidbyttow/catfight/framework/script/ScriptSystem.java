@@ -1,4 +1,4 @@
-package com.davidbyttow.catfight.systems;
+package com.davidbyttow.catfight.framework.script;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Engine;
@@ -6,8 +6,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.davidbyttow.catfight.components.ScriptComponent;
-import com.davidbyttow.catfight.scripts.EntityScript;
+import com.davidbyttow.catfight.framework.common.SystemPriorities;
 
 import java.util.function.Consumer;
 
@@ -18,7 +17,7 @@ public class ScriptSystem extends IteratingSystem {
   private final ComponentMapper<ScriptComponent> scriptMapper;
 
   public ScriptSystem() {
-    super(FAMILY);
+    super(FAMILY, SystemPriorities.TICK);
     scriptMapper = ComponentMapper.getFor(ScriptComponent.class);
   }
 

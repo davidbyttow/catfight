@@ -1,4 +1,4 @@
-package com.davidbyttow.catfight.scripts;
+package com.davidbyttow.catfight.framework.script;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Engine;
@@ -9,7 +9,6 @@ public interface EntityScript extends DefaultInputProcessor {
   void onAdded(Engine engine, Entity entity);
 
   void onRemoved();
-
 
   void update(float delta);
 

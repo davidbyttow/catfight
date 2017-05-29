@@ -8,7 +8,7 @@ import com.davidbyttow.catfight.framework.animation.Animation;
 import com.davidbyttow.catfight.framework.aseprite.FrameData;
 import com.davidbyttow.catfight.framework.aseprite.SpriteAnimations;
 import com.davidbyttow.catfight.framework.aseprite.SpriteSheetData;
-import com.davidbyttow.catfight.framework.json.Json;
+import com.davidbyttow.catfight.framework.common.Json;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -22,11 +22,11 @@ public final class Assets {
   public static Texture groundTileTexture;
   public static TextureRegion groundTileRegion;
 
-  public static Texture catTexture;
-  private static SpriteSheetData catSpriteData;
-
   public static Animation<TextureRegion> catIdle;
   public static Animation<TextureRegion> catWalk;
+  public static Animation<TextureRegion> catJumpBegin;
+  public static Animation<TextureRegion> catJumpIdle;
+  public static Animation<TextureRegion> catJumpEnd;
 
   public static void load() {
     forestBackgroundTexture = loadTexture("bg_forest01.png");
@@ -35,10 +35,16 @@ public final class Assets {
     groundTileTexture = loadTexture("grass01.png");
     groundTileRegion = loadRegion(groundTileTexture);
 
-    catTexture = loadTexture("cat.png");
-    catSpriteData = loadSpriteSheet("cat.json");
-    catIdle = SpriteAnimations.loadFromTag(catSpriteData, "idle", newRegionGenerator(catTexture));
-    catWalk = SpriteAnimations.loadFromTag(catSpriteData, "walk", newRegionGenerator(catTexture));
+    Texture catTexture = loadTexture("cat.png");
+    SpriteSheetData catSprite = loadSpriteSheet("cat.json");
+    catIdle = SpriteAnimations.loadFromTag(catSprite, "idle", newRegionGenerator(catTexture));
+    catWalk = SpriteAnimations.loadFromTag(catSprite, "walk", newRegionGenerator(catTexture));
+
+    Texture catJumpTexture = loadTexture("cat_jump.png");
+    SpriteSheetData catJumpSprite = loadSpriteSheet("cat_jump.json");
+    catJumpBegin = SpriteAnimations.loadFromTag(catJumpSprite, "jump_begin", newRegionGenerator(catJumpTexture));
+    catJumpIdle = SpriteAnimations.loadFromTag(catJumpSprite, "jump_idle", newRegionGenerator(catJumpTexture));
+    catJumpEnd = SpriteAnimations.loadFromTag(catJumpSprite, "jump_end", newRegionGenerator(catJumpTexture));
   }
 
   public static Texture loadTexture(String file) {

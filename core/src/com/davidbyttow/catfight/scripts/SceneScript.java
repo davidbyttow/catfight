@@ -4,8 +4,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.davidbyttow.catfight.components.TextureComponent;
 import com.davidbyttow.catfight.components.TransformComponent;
 import com.davidbyttow.catfight.framework.common.Units;
+import com.davidbyttow.catfight.framework.script.AbstractEntityScript;
 
-public class SceneScript extends AbstractScript {
+public class SceneScript extends AbstractEntityScript {
 
   private final OrthographicCamera camera;
 

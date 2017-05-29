@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.davidbyttow.catfight.components.PhysicsComponent;
 import com.davidbyttow.catfight.components.TransformComponent;
+import com.davidbyttow.catfight.framework.common.SystemPriorities;
 
 public class PhysicsSystem extends IteratingSystem {
 
@@ -17,7 +18,7 @@ public class PhysicsSystem extends IteratingSystem {
   private final ComponentMapper<TransformComponent> transformMapper;
 
   public PhysicsSystem(World world) {
-    super(Family.all(PhysicsComponent.class, TransformComponent.class).get());
+    super(Family.all(PhysicsComponent.class, TransformComponent.class).get(), SystemPriorities.POST_TICK);
     this.world = world;
     physicsMapper = ComponentMapper.getFor(PhysicsComponent.class);
     transformMapper = ComponentMapper.getFor(TransformComponent.class);

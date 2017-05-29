@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.davidbyttow.catfight.components.TextureComponent;
 import com.davidbyttow.catfight.components.TransformComponent;
+import com.davidbyttow.catfight.framework.common.SystemPriorities;
 import com.davidbyttow.catfight.framework.common.Units;
 
 import java.util.Comparator;
@@ -33,7 +34,8 @@ public class RenderingSystem extends IteratingSystem {
   private ComponentMapper<TransformComponent> transformMapper;
 
   public RenderingSystem(SpriteBatch batch, World world) {
-    super(all(TransformComponent.class, TextureComponent.class).get());
+    super(all(TransformComponent.class, TextureComponent.class).get(),
+        SystemPriorities.RENDER);
 
     textureMapper = ComponentMapper.getFor(TextureComponent.class);
     transformMapper = ComponentMapper.getFor(TransformComponent.class);

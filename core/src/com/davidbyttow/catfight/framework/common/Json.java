@@ -1,9 +1,8 @@
-package com.davidbyttow.catfight.framework.json;
+package com.davidbyttow.catfight.framework.common;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import javax.annotation.Nullable;
 import java.io.Reader;
 
 public final class Json {

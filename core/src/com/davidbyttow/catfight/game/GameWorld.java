@@ -13,8 +13,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.davidbyttow.catfight.Assets;
 import com.davidbyttow.catfight.components.AnimationComponent;
 import com.davidbyttow.catfight.components.CameraComponent;
+import com.davidbyttow.catfight.components.InputComponent;
 import com.davidbyttow.catfight.components.PhysicsComponent;
-import com.davidbyttow.catfight.components.ScriptComponent;
+import com.davidbyttow.catfight.framework.script.ScriptComponent;
 import com.davidbyttow.catfight.components.TextureComponent;
 import com.davidbyttow.catfight.components.TransformComponent;
 import com.davidbyttow.catfight.scripts.PlayerScript;
@@ -45,12 +46,12 @@ public class GameWorld {
 
   private Entity createPlayer() {
     Entity player = engine.createEntity();
-    AnimationComponent animation = engine.createComponent(AnimationComponent.class);
-    ScriptComponent script = engine.createComponent(ScriptComponent.class);
-    TextureComponent texture = engine.createComponent(TextureComponent.class);
-    TransformComponent transform = engine.createComponent(TransformComponent.class);
-    PhysicsComponent physics = engine.createComponent(PhysicsComponent.class);
 
+    player.add(engine.createComponent(InputComponent.class));
+    player.add(engine.createComponent(TextureComponent.class));
+    player.add(engine.createComponent(TransformComponent.class));
+
+    PhysicsComponent physics = engine.createComponent(PhysicsComponent.class);
     BodyDef def = new BodyDef();
     def.type = BodyDef.BodyType.DynamicBody;
     def.position.set(5f, 5f);
@@ -64,18 +65,22 @@ public class GameWorld {
     fixture.setFriction(10);
     circle.dispose();
     physics.body = body;
+    physics.body.setUserData(player);
+    player.add(physics);
 
-    script.scripts.add(new PlayerScript());
-
+    AnimationComponent animation = engine.createComponent(AnimationComponent.class);
     animation.animations.put("idle", Assets.catIdle);
     animation.animations.put("walk", Assets.catWalk);
+    animation.animations.put("jump_begin", Assets.catJumpBegin);
+    animation.animations.put("jump_idle", Assets.catJumpIdle);
+    animation.animations.put("jump_end", Assets.catJumpEnd);
     animation.animName = "idle";
-
-    player.add(script);
     player.add(animation);
-    player.add(texture);
-    player.add(transform);
-    player.add(physics);
+
+    ScriptComponent script = engine.createComponent(ScriptComponent.class);
+    script.entityScripts.add(new PlayerScript());
+    player.add(script);
+
     engine.addEntity(player);
     return player;
   }
@@ -120,7 +125,7 @@ public class GameWorld {
     TextureComponent texture = engine.createComponent(TextureComponent.class);
     TransformComponent transform = engine.createComponent(TransformComponent.class);
 
-    script.scripts.add(new SceneScript(camera));
+    script.entityScripts.add(new SceneScript(camera));
 
     texture.region = Assets.forestBackgroundRegion;
 
