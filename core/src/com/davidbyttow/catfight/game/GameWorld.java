@@ -5,10 +5,11 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.davidbyttow.catfight.Assets;
 import com.davidbyttow.catfight.components.AnimationComponent;
 import com.davidbyttow.catfight.components.CameraComponent;
-import com.davidbyttow.catfight.components.LogicComponent;
+import com.davidbyttow.catfight.components.ScriptComponent;
 import com.davidbyttow.catfight.components.MovementComponent;
 import com.davidbyttow.catfight.components.TextureComponent;
 import com.davidbyttow.catfight.components.TransformComponent;
+import com.davidbyttow.catfight.scripts.PlayerScript;
 import com.davidbyttow.catfight.systems.RenderingSystem;
 
 public class GameWorld {
@@ -32,19 +33,19 @@ public class GameWorld {
   private Entity createPlayer() {
     Entity player = engine.createEntity();
     AnimationComponent animation = engine.createComponent(AnimationComponent.class);
-    LogicComponent logic = engine.createComponent(LogicComponent.class);
+    ScriptComponent script = engine.createComponent(ScriptComponent.class);
     MovementComponent movement = engine.createComponent(MovementComponent.class);
     TextureComponent texture = engine.createComponent(TextureComponent.class);
     TransformComponent transform = engine.createComponent(TransformComponent.class);
 
-    logic.handlers.add(new PlayerLogic(player));
+    script.scripts.add(new PlayerScript());
 
     animation.animations.put("idle", Assets.catIdle);
     animation.animations.put("walk", Assets.catWalk);
     animation.animName = "idle";
 
     transform.pos.set(0.f, 0.f, 0.f);
-    player.add(logic);
+    player.add(script);
     player.add(animation);
     player.add(texture);
     player.add(movement);

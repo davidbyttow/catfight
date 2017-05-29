@@ -1,17 +1,11 @@
-package com.davidbyttow.catfight.game;
+package com.davidbyttow.catfight.scripts;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.davidbyttow.catfight.components.AnimationComponent;
-import com.davidbyttow.catfight.components.EntityLogic;
 import com.davidbyttow.catfight.components.MovementComponent;
 
-public class PlayerLogic extends EntityLogic {
-
-  public PlayerLogic(Entity entity) {
-    super(entity);
-  }
+public class PlayerScript extends AbstractScript {
 
   @Override public void update(float delta) {
     AnimationComponent animation = getComponent(AnimationComponent.class);

@@ -4,14 +4,11 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.math.Vector2;
 import com.davidbyttow.catfight.components.MovementComponent;
 import com.davidbyttow.catfight.components.TransformComponent;
 import com.davidbyttow.catfight.framework.common.Vectors;
 
 public class MovementSystem extends IteratingSystem {
-  private Vector2 tmp = new Vector2();
-
   private ComponentMapper<TransformComponent> transformMapper;
   private ComponentMapper<MovementComponent> movementMapper;
 

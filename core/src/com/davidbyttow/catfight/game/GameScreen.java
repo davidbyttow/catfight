@@ -6,7 +6,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.davidbyttow.catfight.Catfight;
 import com.davidbyttow.catfight.systems.AnimationSystem;
 import com.davidbyttow.catfight.systems.CameraSystem;
-import com.davidbyttow.catfight.systems.LogicSystem;
+import com.davidbyttow.catfight.systems.ScriptSystem;
 import com.davidbyttow.catfight.systems.MovementSystem;
 import com.davidbyttow.catfight.systems.RenderingSystem;
 
@@ -19,7 +19,7 @@ public class GameScreen extends ScreenAdapter {
     this.engine = new PooledEngine();
 
     engine.addSystem(new CameraSystem());
-    engine.addSystem(new LogicSystem());
+    engine.addSystem(new ScriptSystem());
     engine.addSystem(new MovementSystem());
     engine.addSystem(new AnimationSystem());
     engine.addSystem(new RenderingSystem(game.batcher));
