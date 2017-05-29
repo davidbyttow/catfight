@@ -33,6 +33,6 @@ public class AnimationSystem extends IteratingSystem {
       tc.region = kf.getRef();
     }
 
-    ac.animTime += deltaTime;
+    ac.animTime += ac.animSpeed * deltaTime;
   }
 }

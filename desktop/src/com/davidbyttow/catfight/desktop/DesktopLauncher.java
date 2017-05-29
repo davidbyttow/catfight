@@ -2,7 +2,7 @@ package com.davidbyttow.catfight.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.davidbyttow.catfight.CatfightGame;
+import com.davidbyttow.catfight.Catfight;
 
 public class DesktopLauncher {
 
@@ -10,6 +10,6 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 800;
 		config.height = 600;
-		new LwjglApplication(new CatfightGame(), config);
+		new LwjglApplication(new Catfight(), config);
 	}
 }

@@ -1,12 +1,13 @@
-package com.davidbyttow.catfight.screens;
+package com.davidbyttow.catfight.game;
 
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.ScreenAdapter;
-import com.davidbyttow.catfight.CatfightGame;
-import com.davidbyttow.catfight.GameWorld;
+import com.davidbyttow.catfight.Catfight;
 import com.davidbyttow.catfight.systems.AnimationSystem;
 import com.davidbyttow.catfight.systems.CameraSystem;
+import com.davidbyttow.catfight.systems.LogicSystem;
+import com.davidbyttow.catfight.systems.MovementSystem;
 import com.davidbyttow.catfight.systems.RenderingSystem;
 
 public class GameScreen extends ScreenAdapter {
@@ -14,10 +15,12 @@ public class GameScreen extends ScreenAdapter {
   private final PooledEngine engine;
   private final GameWorld gameWorld;
 
-  public GameScreen(CatfightGame game) {
+  public GameScreen(Catfight game) {
     this.engine = new PooledEngine();
 
     engine.addSystem(new CameraSystem());
+    engine.addSystem(new LogicSystem());
+    engine.addSystem(new MovementSystem());
     engine.addSystem(new AnimationSystem());
     engine.addSystem(new RenderingSystem(game.batcher));
 

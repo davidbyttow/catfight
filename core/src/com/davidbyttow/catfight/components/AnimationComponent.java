@@ -11,5 +11,14 @@ import java.util.Map;
 public class AnimationComponent implements Component {
   public String animName;
   public float animTime;
+  public float animSpeed = 1;
   public Map<String, Animation<TextureRegion>> animations = new HashMap<>();
+
+  public void setAnim(String name) {
+    if (!name.equals(this.animName)) {
+      this.animName = name;
+      this.animTime = 0;
+      this.animSpeed = 1;
+    }
+  }
 }

@@ -33,14 +33,9 @@ public class RenderingSystem extends IteratingSystem {
     textureMapper = ComponentMapper.getFor(TextureComponent.class);
     transformMapper = ComponentMapper.getFor(TransformComponent.class);
 
-    renderQueue = new Array<Entity>();
+    renderQueue = new Array<>();
 
-    comparator = new Comparator<Entity>() {
-      @Override
-      public int compare(Entity entityA, Entity entityB) {
-        return (int)Math.signum(transformMapper.get(entityB).pos.z - transformMapper.get(entityA).pos.z);
-      }
-    };
+    comparator = (entityA, entityB) -> (int)Math.signum(transformMapper.get(entityB).pos.z - transformMapper.get(entityA).pos.z);
 
     this.batch = batch;
 
