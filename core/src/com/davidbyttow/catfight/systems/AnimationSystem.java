@@ -38,7 +38,5 @@ public class AnimationSystem extends IteratingSystem {
       KeyFrame<TextureRegion> kf = animation.getKeyFrame(state.time);
       tex.region = kf.getRef();
     }
-
-    state.time += deltaTime;
   }
 }
