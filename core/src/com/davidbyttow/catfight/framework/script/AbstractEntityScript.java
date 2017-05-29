@@ -6,7 +6,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.google.common.base.Preconditions;
 
-public abstract class AbstractScript implements Script {
+public abstract class AbstractEntityScript implements EntityScript {
 
   private Engine engine;
   protected Entity entity;

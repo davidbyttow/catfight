@@ -7,7 +7,7 @@ import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.davidbyttow.catfight.components.ScriptComponent;
-import com.davidbyttow.catfight.scripts.Script;
+import com.davidbyttow.catfight.scripts.EntityScript;
 
 import java.util.function.Consumer;
 
@@ -30,14 +30,14 @@ public class ScriptSystem extends IteratingSystem {
       }
 
       @Override public void entityRemoved(Entity entity) {
-        scripts(entity, Script::onRemoved);
+        scripts(entity, EntityScript::onRemoved);
       }
     });
     entities(e -> scripts(e, s -> s.onAdded(engine, e)));
   }
 
   @Override public void removedFromEngine(Engine engine) {
-    entities(e -> scripts(e, Script::onRemoved));
+    entities(e -> scripts(e, EntityScript::onRemoved));
     super.removedFromEngine(engine);
   }
 
@@ -49,8 +49,8 @@ public class ScriptSystem extends IteratingSystem {
     getEntities().forEach(consumer);
   }
 
-  private void scripts(Entity entity, Consumer<Script> consumer) {
+  private void scripts(Entity entity, Consumer<EntityScript> consumer) {
     ScriptComponent script = scriptMapper.get(entity);
-    script.scripts.forEach(consumer);
+    script.entityScripts.forEach(consumer);
   }
 }
