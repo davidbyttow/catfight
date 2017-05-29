@@ -20,13 +20,15 @@ public final class Assets {
   private static SpriteSheetData catSpriteData;
 
   public static Animation<TextureRegion> catIdle;
+  public static Animation<TextureRegion> catWalk;
 
   public static void load() {
-    catTexture = loadTexture("cat_idle.png");
+    catTexture = loadTexture("cat.png");
 
 
-    catSpriteData = loadSpriteSheet("cat_idle.json");
+    catSpriteData = loadSpriteSheet("cat.json");
     catIdle = SpriteAnimations.loadFromTag(catSpriteData, "idle", newRegionGenerator(catTexture));
+    catWalk = SpriteAnimations.loadFromTag(catSpriteData, "walk", newRegionGenerator(catTexture));
   }
 
   public static Texture loadTexture(String file) {

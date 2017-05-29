@@ -8,7 +8,6 @@ import com.davidbyttow.catfight.GameWorld;
 import com.davidbyttow.catfight.systems.AnimationSystem;
 import com.davidbyttow.catfight.systems.CameraSystem;
 import com.davidbyttow.catfight.systems.RenderingSystem;
-import com.davidbyttow.catfight.systems.StateSystem;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -19,7 +18,6 @@ public class GameScreen extends ScreenAdapter {
     this.engine = new PooledEngine();
 
     engine.addSystem(new CameraSystem());
-    engine.addSystem(new StateSystem());
     engine.addSystem(new AnimationSystem());
     engine.addSystem(new RenderingSystem(game.batcher));
 
