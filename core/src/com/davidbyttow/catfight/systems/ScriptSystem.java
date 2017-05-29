@@ -12,18 +12,19 @@ import com.davidbyttow.catfight.scripts.Script;
 import java.util.function.Consumer;
 
 public class ScriptSystem extends IteratingSystem {
+
+  private static final Family FAMILY = Family.all(ScriptComponent.class).get();
+
   private final ComponentMapper<ScriptComponent> scriptMapper;
 
-  private static final Family family = Family.all(ScriptComponent.class).get();
-
   public ScriptSystem() {
-    super(family);
+    super(FAMILY);
     scriptMapper = ComponentMapper.getFor(ScriptComponent.class);
   }
 
   @Override public void addedToEngine(Engine engine) {
     super.addedToEngine(engine);
-    engine.addEntityListener(family, new EntityListener() {
+    engine.addEntityListener(FAMILY, new EntityListener() {
       @Override public void entityAdded(Entity entity) {
         scripts(entity, s -> s.onAdded(engine, entity));
       }

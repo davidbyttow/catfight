@@ -7,6 +7,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.davidbyttow.catfight.components.TextureComponent;
 import com.davidbyttow.catfight.components.TransformComponent;
@@ -19,24 +21,24 @@ public class RenderingSystem extends IteratingSystem {
   static final float FRUSTUM_WIDTH = 10;
   static final float PIXELS_TO_METERS = 1.0f / 32.0f;
 
-  private SpriteBatch batch;
-  private Array<Entity> renderQueue;
-  private Comparator<Entity> comparator;
-  private OrthographicCamera cam;
+  private final SpriteBatch batch;
+  private final Array<Entity> renderQueue = new Array<>();
+  private final Comparator<Entity> comparator;
+  private final OrthographicCamera cam;
+  private final World world;
+  private final Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
 
   private ComponentMapper<TextureComponent> textureMapper;
   private ComponentMapper<TransformComponent> transformMapper;
 
-  public RenderingSystem(SpriteBatch batch) {
+  public RenderingSystem(SpriteBatch batch, World world) {
     super(all(TransformComponent.class, TextureComponent.class).get());
 
     textureMapper = ComponentMapper.getFor(TextureComponent.class);
     transformMapper = ComponentMapper.getFor(TransformComponent.class);
 
-    renderQueue = new Array<>();
-
-    comparator = (entityA, entityB) -> (int)Math.signum(transformMapper.get(entityB).pos.z - transformMapper.get(entityA).pos.z);
-
+    this.world = world;
+    this.comparator = (entityA, entityB) -> (int)Math.signum(transformMapper.get(entityB).pos.z - transformMapper.get(entityA).pos.z);
     this.batch = batch;
 
     float height = FRUSTUM_WIDTH * Gdx.graphics.getHeight() / Gdx.graphics.getWidth();
@@ -82,6 +84,7 @@ public class RenderingSystem extends IteratingSystem {
 
     batch.end();
     renderQueue.clear();
+    debugRenderer.render(world, cam.combined);
   }
 
   @Override
