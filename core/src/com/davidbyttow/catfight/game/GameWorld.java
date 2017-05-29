@@ -2,6 +2,7 @@ package com.davidbyttow.catfight.game;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -17,6 +18,7 @@ import com.davidbyttow.catfight.components.ScriptComponent;
 import com.davidbyttow.catfight.components.TextureComponent;
 import com.davidbyttow.catfight.components.TransformComponent;
 import com.davidbyttow.catfight.scripts.PlayerScript;
+import com.davidbyttow.catfight.scripts.SceneScript;
 import com.davidbyttow.catfight.systems.RenderingSystem;
 
 public class GameWorld {
@@ -36,8 +38,9 @@ public class GameWorld {
 
   private void init() {
     Entity player = createPlayer();
-    createCamera(player);
+    CameraComponent cc = createCamera(player);
     createGround();
+    createScene(cc.camera);
   }
 
   private Entity createPlayer() {
@@ -77,16 +80,27 @@ public class GameWorld {
     return player;
   }
 
-  private void createCamera(Entity target) {
+  private CameraComponent createCamera(Entity target) {
     Entity camera = engine.createEntity();
     CameraComponent cc = new CameraComponent();
     cc.camera = engine.getSystem(RenderingSystem.class).getCamera();
     cc.target = target;
     camera.add(cc);
     engine.addEntity(camera);
+    return cc;
   }
 
   private void createGround() {
+    for (int i = 0; i < 15; ++i) {
+      Entity tile = engine.createEntity();
+      TextureComponent texture = new TextureComponent();
+      TransformComponent transform = new TransformComponent();
+      texture.region = Assets.groundTileRegion;
+      transform.pos.x = i;
+      tile.add(texture);
+      tile.add(transform);
+      engine.addEntity(tile);
+    }
     BodyDef def = new BodyDef();
     def.type = BodyDef.BodyType.StaticBody;
     def.position.set(5f, 0f);
@@ -95,8 +109,24 @@ public class GameWorld {
     Body body = world.createBody(def);
 
     PolygonShape box = new PolygonShape();
-    box.setAsBox(10f, 0.5f);
+    box.setAsBox(10f, 1f);
     body.createFixture(box, 0);
     box.dispose();
+  }
+
+  private void createScene(OrthographicCamera camera) {
+    Entity scene = engine.createEntity();
+    ScriptComponent script = engine.createComponent(ScriptComponent.class);
+    TextureComponent texture = engine.createComponent(TextureComponent.class);
+    TransformComponent transform = engine.createComponent(TransformComponent.class);
+
+    script.scripts.add(new SceneScript(camera));
+
+    texture.region = Assets.forestBackgroundRegion;
+
+    scene.add(texture);
+    scene.add(transform);
+    scene.add(script);
+    engine.addEntity(scene);
   }
 }

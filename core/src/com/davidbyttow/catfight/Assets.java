@@ -16,6 +16,12 @@ import java.util.function.Function;
 
 public final class Assets {
 
+  public static Texture forestBackgroundTexture;
+  public static TextureRegion forestBackgroundRegion;
+
+  public static Texture groundTileTexture;
+  public static TextureRegion groundTileRegion;
+
   public static Texture catTexture;
   private static SpriteSheetData catSpriteData;
 
@@ -23,9 +29,13 @@ public final class Assets {
   public static Animation<TextureRegion> catWalk;
 
   public static void load() {
+    forestBackgroundTexture = loadTexture("bg_forest01.png");
+    forestBackgroundRegion = loadRegion(forestBackgroundTexture);
+
+    groundTileTexture = loadTexture("grass01.png");
+    groundTileRegion = loadRegion(groundTileTexture);
+
     catTexture = loadTexture("cat.png");
-
-
     catSpriteData = loadSpriteSheet("cat.json");
     catIdle = SpriteAnimations.loadFromTag(catSpriteData, "idle", newRegionGenerator(catTexture));
     catWalk = SpriteAnimations.loadFromTag(catSpriteData, "walk", newRegionGenerator(catTexture));
@@ -33,6 +43,10 @@ public final class Assets {
 
   public static Texture loadTexture(String file) {
     return new Texture(Gdx.files.internal(file));
+  }
+
+  public static TextureRegion loadRegion(Texture texture) {
+    return new TextureRegion(texture, 0, 0, texture.getWidth(), texture.getHeight());
   }
 
   public static SpriteSheetData loadSpriteSheet(String file) {

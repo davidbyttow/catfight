@@ -6,12 +6,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.davidbyttow.catfight.components.AnimationComponent;
 import com.davidbyttow.catfight.components.PhysicsComponent;
+import com.davidbyttow.catfight.components.TransformComponent;
 
 public class PlayerScript extends AbstractScript {
 
   @Override public void update(float delta) {
     AnimationComponent animation = getComponent(AnimationComponent.class);
     PhysicsComponent physics = getComponent(PhysicsComponent.class);
+    TransformComponent transform = getComponent(TransformComponent.class);
     Body body = physics.body;
 
     Vector2 vel = body.getLinearVelocity();
@@ -21,8 +23,10 @@ public class PlayerScript extends AbstractScript {
 
     if (Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT)) {
       impulse = -0.8f;
+      transform.facingLeft = true;
     } else if (Gdx.input.isKeyPressed(Input.Keys.DPAD_RIGHT)) {
       impulse = 0.8f;
+      transform.facingLeft = false;
     }
 
     if (Math.abs(impulse) > 0 && Math.abs(vel.x) < 5f) {
