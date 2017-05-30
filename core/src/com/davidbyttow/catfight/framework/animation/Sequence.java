@@ -3,16 +3,16 @@ package com.davidbyttow.catfight.framework.animation;
 public class Sequence<T> {
   private final String name;
   private final Animation<T> anim;
-  private final SequenceHandler handler;
+  private final SequenceScript script;
 
-  private Sequence(String name, Animation<T> anim, SequenceHandler handler) {
+  private Sequence(String name, Animation<T> anim, SequenceScript script) {
     this.name = name;
     this.anim = anim;
-    this.handler = handler;
+    this.script = script;
   }
 
-  public static <T> Sequence<T> fromAnim(String name, Animation<T> anim, SequenceHandler handler) {
-    return new Sequence<>(name, anim, handler);
+  public static <T> Sequence<T> create(String name, Animation<T> anim, SequenceScript script) {
+    return new Sequence<>(name, anim, script);
   }
 
   public Animation<T> getAnim() {
@@ -23,7 +23,7 @@ public class Sequence<T> {
     return name;
   }
 
-  public SequenceHandler getHandler() {
-    return handler;
+  public SequenceScript getScript() {
+    return script;
   }
 }

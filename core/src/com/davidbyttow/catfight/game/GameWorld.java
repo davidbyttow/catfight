@@ -13,13 +13,13 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.davidbyttow.catfight.Assets;
 import com.davidbyttow.catfight.components.AnimationComponent;
 import com.davidbyttow.catfight.components.CameraComponent;
-import com.davidbyttow.catfight.components.InputComponent;
 import com.davidbyttow.catfight.components.PhysicsComponent;
-import com.davidbyttow.catfight.components.SequenceComponent;
 import com.davidbyttow.catfight.components.TextureComponent;
 import com.davidbyttow.catfight.components.TransformComponent;
-import com.davidbyttow.catfight.framework.animation.Sequence;
+import com.davidbyttow.catfight.framework.animation.SequenceComponent;
+import com.davidbyttow.catfight.framework.input.InputComponent;
 import com.davidbyttow.catfight.framework.script.ScriptComponent;
+import com.davidbyttow.catfight.scripts.CatSequences;
 import com.davidbyttow.catfight.scripts.PlayerScript;
 import com.davidbyttow.catfight.scripts.SceneScript;
 import com.davidbyttow.catfight.systems.RenderingSystem;
@@ -71,12 +71,12 @@ public class GameWorld {
     player.add(physics);
 
     SequenceComponent sequence = engine.createComponent(SequenceComponent.class);
-    sequence.sequences.put("idle", Sequence.fromAnim("idle", Assets.catIdle));
-    sequence.sequences.put("walk", Sequence.fromAnim("walk", Assets.catWalk));
-    sequence.sequences.put("jump_begin", Sequence.fromAnim("jump_begin", Assets.catJumpBegin));
-    sequence.sequences.put("jump_idle", Sequence.fromAnim("jump_idle", Assets.catJumpIdle));
-    sequence.sequences.put("jump_end", Sequence.fromAnim("jump_end", Assets.catJumpEnd));
-    sequence.setSequence("idle");
+    sequence.addSequence(CatSequences.IDLE);
+    sequence.addSequence(CatSequences.WALK);
+//    sequence.sequences.put("jump_begin", Sequence.fromAnim("jump_begin", Assets.catJumpBegin));
+//    sequence.sequences.put("jump_idle", Sequence.fromAnim("jump_idle", Assets.catJumpIdle));
+//    sequence.sequences.put("jump_end", Sequence.fromAnim("jump_end", Assets.catJumpEnd));
+    sequence.setSequence(CatSequences.IDLE.getName());
     player.add(sequence);
 
 

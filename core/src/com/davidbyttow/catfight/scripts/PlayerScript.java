@@ -5,10 +5,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
-import com.davidbyttow.catfight.components.AnimationComponent;
 import com.davidbyttow.catfight.components.PhysicsComponent;
-import com.davidbyttow.catfight.components.SequenceComponent;
 import com.davidbyttow.catfight.components.TransformComponent;
+import com.davidbyttow.catfight.framework.animation.SequenceComponent;
 import com.davidbyttow.catfight.framework.physics.Contacts;
 import com.davidbyttow.catfight.framework.script.AbstractEntityScript;
 
@@ -20,14 +19,13 @@ public class PlayerScript extends AbstractEntityScript {
       PhysicsComponent physics = getComponent(PhysicsComponent.class);
       physics.body.applyLinearImpulse(0f, 4f, transform.pos.x, transform.pos.y, true);
     } else if (keyCode == Input.Keys.Z) {
-      SequenceComponent sequence = getComponent(SequenceComponent.class);
-      sequence.setSequence("kick");
+//      SequenceComponent sequence = getComponent(SequenceComponent.class);
+//      sequence.setSequence("kick");
     }
     return false;
   }
 
   @Override public void update(float delta) {
-    AnimationComponent animation = getComponent(AnimationComponent.class);
     SequenceComponent sequence = getComponent(SequenceComponent.class);
     PhysicsComponent physics = getComponent(PhysicsComponent.class);
     TransformComponent transform = getComponent(TransformComponent.class);
@@ -59,12 +57,11 @@ public class PlayerScript extends AbstractEntityScript {
     }
 
     if (inAir) {
-      sequence.setSequence("jump_idle");
-    } else if (Math.abs(vel.x) > 0 || impulse > 0) {
-      animation.animSpeed = (Math.abs(vel.x) / 5) + 0.5f;
-      sequence.setSequence("walk");
+//      sequence.setSequence("jump_idle");
     } else {
-      sequence.setSequence("idle");
+      if (Math.abs(vel.x) <= 0) {
+        sequence.setSequence("idle");
+      }
     }
   }
 }

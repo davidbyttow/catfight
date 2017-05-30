@@ -1,10 +1,8 @@
-package com.davidbyttow.catfight.systems;
+package com.davidbyttow.catfight.framework.input;
 
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.InputProcessor;
-import com.davidbyttow.catfight.components.InputComponent;
 import com.davidbyttow.catfight.framework.common.SystemPriorities;
-import com.davidbyttow.catfight.framework.input.CompositeInputProcessor;
 import com.davidbyttow.catfight.framework.script.EntityScript;
 import com.davidbyttow.catfight.framework.script.ScriptableSystem;
 

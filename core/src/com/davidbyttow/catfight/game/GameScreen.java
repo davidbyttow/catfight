@@ -11,10 +11,10 @@ import com.davidbyttow.catfight.framework.input.CompositeInputProcessor;
 import com.davidbyttow.catfight.framework.script.ScriptSystem;
 import com.davidbyttow.catfight.systems.AnimationSystem;
 import com.davidbyttow.catfight.systems.CameraSystem;
-import com.davidbyttow.catfight.systems.InputSystem;
+import com.davidbyttow.catfight.framework.input.InputSystem;
 import com.davidbyttow.catfight.systems.PhysicsSystem;
 import com.davidbyttow.catfight.systems.RenderingSystem;
-import com.davidbyttow.catfight.systems.SequenceSystem;
+import com.davidbyttow.catfight.framework.animation.SequenceSystem;
 
 public class GameScreen extends ScreenAdapter {
 

@@ -1,4 +1,4 @@
-package com.davidbyttow.catfight.components;
+package com.davidbyttow.catfight.framework.input;
 
 import com.badlogic.ashley.core.Component;
 
