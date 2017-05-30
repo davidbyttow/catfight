@@ -76,7 +76,7 @@ public class GameWorld {
     sequence.sequences.put("jump_begin", Sequence.fromAnim("jump_begin", Assets.catJumpBegin));
     sequence.sequences.put("jump_idle", Sequence.fromAnim("jump_idle", Assets.catJumpIdle));
     sequence.sequences.put("jump_end", Sequence.fromAnim("jump_end", Assets.catJumpEnd));
-    sequence.sequence = "idle";
+    sequence.setSequence("idle");
     player.add(sequence);
 
 

@@ -3,9 +3,10 @@ package com.davidbyttow.catfight.framework.script;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.davidbyttow.catfight.framework.animation.SequenceHandler;
 import com.davidbyttow.catfight.framework.input.DefaultInputProcessor;
 
-public interface EntityScript extends DefaultInputProcessor {
+public interface EntityScript extends DefaultInputProcessor, SequenceHandler {
   void onAdded(Engine engine, Entity entity);
 
   void onRemoved();

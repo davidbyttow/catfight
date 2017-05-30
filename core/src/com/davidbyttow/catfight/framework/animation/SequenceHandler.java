@@ -1,12 +1,9 @@
 package com.davidbyttow.catfight.framework.animation;
 
-import com.badlogic.ashley.core.Entity;
-import com.davidbyttow.catfight.components.AnimationComponent;
-
 public interface SequenceHandler {
-  void begin(Entity entity, AnimationComponent anim);
+  default void begin() {}
 
-  void end(Entity entity, AnimationComponent anim);
+  default void end() {}
 
-  void onFrame(int frame, Entity entity, AnimationComponent anim);
+  default void onFrame(int frame) {}
 }

@@ -9,5 +9,17 @@ import java.util.Map;
 
 public class SequenceComponent implements Component {
   public Map<String, Sequence<TextureRegion>> sequences = new HashMap<>();
-  public String sequence;
+  private String sequence;
+  public int lastFrame = -1;
+
+  public String getSequence() {
+    return sequence;
+  }
+
+  public void setSequence(String sequence) {
+    if (!sequence.equals(this.sequence)) {
+      this.sequence = sequence;
+      lastFrame = -1;
+    }
+  }
 }

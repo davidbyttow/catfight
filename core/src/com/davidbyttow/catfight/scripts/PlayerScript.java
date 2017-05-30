@@ -23,9 +23,13 @@ public class PlayerScript extends AbstractEntityScript {
       physics.body.applyLinearImpulse(0f, 4f, transform.pos.x, transform.pos.y, true);
     } else if (keyCode == Input.Keys.Z) {
       SequenceComponent sequence = getComponent(SequenceComponent.class);
-      sequence.sequence = "kick";
+      sequence.setSequence("kick");
     }
     return false;
+  }
+
+  @Override public void onFrame(int frame) {
+    System.out.print(frame);
   }
 
   @Override public void update(float delta) {
@@ -61,12 +65,12 @@ public class PlayerScript extends AbstractEntityScript {
     }
 
     if (inAir) {
-      sequence.sequence = "jump_idle";
+      sequence.setSequence("jump_idle");
     } else if (Math.abs(vel.x) > 0 || impulse > 0) {
       animation.animSpeed = (Math.abs(vel.x) / 5) + 0.5f;
-      sequence.sequence = "walk";
+      sequence.setSequence("walk");
     } else {
-      sequence.sequence = "idle";
+      sequence.setSequence("idle");
     }
   }
 }
