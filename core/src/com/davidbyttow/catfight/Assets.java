@@ -22,11 +22,11 @@ public final class Assets {
   public static Texture groundTileTexture;
   public static TextureRegion groundTileRegion;
 
-  public static Animation<TextureRegion> catIdle;
-  public static Animation<TextureRegion> catWalk;
-  public static Animation<TextureRegion> catJumpBegin;
-  public static Animation<TextureRegion> catJumpIdle;
-  public static Animation<TextureRegion> catJumpEnd;
+  public static Animation catIdle;
+  public static Animation catWalk;
+  public static Animation catJumpBegin;
+  public static Animation catJumpIdle;
+  public static Animation catJumpEnd;
 
   public static void load() {
     forestBackgroundTexture = loadTexture("bg_forest01.png");

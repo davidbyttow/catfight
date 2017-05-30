@@ -31,8 +31,11 @@ public class AnimationSystem extends IteratingSystem {
     AnimationComponent ac = animationMapper.get(entity);
 
     if (ac.anim != null) {
-      KeyFrame<TextureRegion> kf = ac.anim.getKeyFrame(ac.animTime);
-      tc.region = kf.getRef();
+      KeyFrame kf = ac.anim.getKeyFrame(ac.animTime);
+      Object ref = kf.getRef();
+      if (ref instanceof TextureRegion) {
+        tc.region = (TextureRegion) ref;
+      }
     }
 
     ac.animTime += ac.animSpeed * deltaTime;

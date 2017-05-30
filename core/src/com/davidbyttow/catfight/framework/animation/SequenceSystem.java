@@ -3,7 +3,6 @@ package com.davidbyttow.catfight.framework.animation;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.davidbyttow.catfight.components.AnimationComponent;
 import com.davidbyttow.catfight.systems.AnimationSystem;
 
@@ -18,20 +17,24 @@ public class SequenceSystem extends IteratingSystem {
     SequenceComponent sc = entity.getComponent(SequenceComponent.class);
     AnimationComponent ac = entity.getComponent(AnimationComponent.class);
 
-    SequenceState<TextureRegion> state = sc.state;
-    Sequence<TextureRegion> current = sc.state.current;
+    SequenceState state = sc.state;
+    Sequence current = sc.state.current;
 
     // First update the current running sequence
     if (current != null) {
-      SequenceScript script = current.getScript();
-      script.update(entity, delta);
+      SequenceHooks hooks = current.getHooks();
+      hooks.update.accept(entity, delta);
 
-      Animation<TextureRegion> anim = current.getAnim();
-      KeyFrame<TextureRegion> keyFrame = anim.getKeyFrame(ac.animTime);
+      Animation anim = current.getAnimation();
+      KeyFrame keyFrame = anim.getKeyFrame(ac.animTime);
       int frame = keyFrame.getIndex();
+      int lastFrame = anim.getLastKeyFrame().getIndex();
       if (frame > state.frame) {
         for (int i = state.frame + 1; i <= frame; ++i) {
-          script.frame(entity, i);
+          hooks.frame.accept(entity, i);
+          if (i == lastFrame) {
+            hooks.last.accept(entity);
+          }
         }
       }
 
@@ -40,16 +43,16 @@ public class SequenceSystem extends IteratingSystem {
 
     // It's possible a transition occurs while the script runs.
     // TODO(d): Carry over and run the frames remaining as needed
-    Sequence<TextureRegion> next = state.desired;
+    Sequence next = state.desired;
     if (next != null && current != next) {
       if (current != null) {
-        current.getScript().exit(entity);
+        current.getHooks().exit.accept(entity);
       }
-      next.getScript().enter(entity);
+      next.getHooks().enter.accept(entity);
       state.desired = null;
       state.current = next;
 
-      Animation<TextureRegion> anim = next.getAnim();
+      Animation anim = next.getAnimation();
       ac.setAnim(anim);
       sc.state.frame = -1;
     }

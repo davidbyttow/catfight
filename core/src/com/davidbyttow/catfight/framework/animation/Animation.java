@@ -6,18 +6,18 @@ import com.google.common.collect.ImmutableList;
 
 import java.util.List;
 
-public class Animation<T> {
+public class Animation {
 
-  private final ImmutableList<KeyFrame<T>> keyFrames;
+  private final ImmutableList<KeyFrame> keyFrames;
   private final float duration;
 
-  public Animation(List<KeyFrame<T>> keyFrames) {
+  public Animation(List<KeyFrame> keyFrames) {
     this.keyFrames = ImmutableList.copyOf(keyFrames);
     this.duration = Streams.reduceToFloat(keyFrames.stream(), KeyFrame::getDuration);
     Preconditions.checkState(duration > 0);
   }
 
-  public ImmutableList<KeyFrame<T>> getKeyFrames() {
+  public List<KeyFrame> getKeyFrames() {
     return keyFrames;
   }
 
@@ -25,10 +25,14 @@ public class Animation<T> {
     return duration;
   }
 
-  public KeyFrame<T> getKeyFrame(float time) {
+  public KeyFrame getLastKeyFrame() {
+    return keyFrames.get(keyFrames.size() - 1);
+  }
+
+  public KeyFrame getKeyFrame(float time) {
     float t = time % duration;
     float endTime = 0;
-    for (KeyFrame<T> k : keyFrames) {
+    for (KeyFrame k : keyFrames) {
       endTime += k.getDuration();
       if (t < endTime) {
         return k;

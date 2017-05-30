@@ -1,12 +1,12 @@
 package com.davidbyttow.catfight.framework.animation;
 
-public class KeyFrame<T> {
+public class KeyFrame {
 
   private final int index;
   private final float duration;
-  private final T ref;
+  private final Object ref;
 
-  public KeyFrame(int index, float duration, T ref) {
+  public KeyFrame(int index, float duration, Object ref) {
     this.index = index;
     this.duration = duration;
     this.ref = ref;
@@ -20,7 +20,7 @@ public class KeyFrame<T> {
     return duration;
   }
 
-  public T getRef() {
+  public Object getRef() {
     return ref;
   }
 }
