@@ -14,8 +14,6 @@ import com.davidbyttow.catfight.framework.script.AbstractEntityScript;
 
 public class PlayerScript extends AbstractEntityScript {
 
-  private boolean jumping;
-
   @Override public boolean keyDown(int keyCode) {
     if (keyCode == Input.Keys.SPACE) {
       TransformComponent transform = getComponent(TransformComponent.class);
@@ -26,10 +24,6 @@ public class PlayerScript extends AbstractEntityScript {
       sequence.setSequence("kick");
     }
     return false;
-  }
-
-  @Override public void onFrame(int frame) {
-    System.out.print(frame);
   }
 
   @Override public void update(float delta) {

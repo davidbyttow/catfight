@@ -26,8 +26,6 @@ public class Animation<T> {
   }
 
   public KeyFrame<T> getKeyFrame(float time) {
-    // TODO(d): Support other play modes
-
     float t = time % duration;
     float endTime = 0;
     for (KeyFrame<T> k : keyFrames) {

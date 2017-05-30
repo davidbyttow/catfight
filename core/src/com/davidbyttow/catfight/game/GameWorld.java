@@ -72,7 +72,7 @@ public class GameWorld {
 
     SequenceComponent sequence = engine.createComponent(SequenceComponent.class);
     sequence.sequences.put("idle", Sequence.fromAnim("idle", Assets.catIdle));
-    sequence.sequences.put("walk", Sequence.fromAnim("alk", Assets.catWalk));
+    sequence.sequences.put("walk", Sequence.fromAnim("walk", Assets.catWalk));
     sequence.sequences.put("jump_begin", Sequence.fromAnim("jump_begin", Assets.catJumpBegin));
     sequence.sequences.put("jump_idle", Sequence.fromAnim("jump_idle", Assets.catJumpIdle));
     sequence.sequences.put("jump_end", Sequence.fromAnim("jump_end", Assets.catJumpEnd));

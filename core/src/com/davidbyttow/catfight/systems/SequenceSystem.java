@@ -38,11 +38,11 @@ public class SequenceSystem extends ScriptableSystem {
     int frame = keyFrame.getIndex();
     if (frame > tc.lastFrame) {
       if (frame == 0) {
-        forEachScript(SequenceHandler::begin);
+        forEachScript(SequenceHandler::onEnterSequence);
       }
       for (int i = tc.lastFrame + 1; i <= frame; ++i) {
         final int thisFrame = i;
-        forEachScript(s -> s.onFrame(thisFrame));
+        forEachScript(s -> s.onSequenceFrame(thisFrame));
       }
     }
     tc.lastFrame = frame;

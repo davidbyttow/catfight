@@ -1,9 +1,15 @@
 package com.davidbyttow.catfight.framework.animation;
 
 public interface SequenceHandler {
-  default void begin() {}
+  default void enter() {}
 
-  default void end() {}
+  default void exit() {}
 
-  default void onFrame(int frame) {}
+  default void last() {}
+
+  default void frame(int frame) {}
+
+  default void update(float delta) {}
+
+  default boolean loop() { return false; }
 }
