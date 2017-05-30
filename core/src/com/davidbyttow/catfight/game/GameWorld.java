@@ -11,12 +11,12 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.davidbyttow.catfight.Assets;
+import com.davidbyttow.catfight.components.ActorComponent;
 import com.davidbyttow.catfight.components.AnimationComponent;
 import com.davidbyttow.catfight.components.CameraComponent;
 import com.davidbyttow.catfight.components.PhysicsComponent;
 import com.davidbyttow.catfight.components.TextureComponent;
 import com.davidbyttow.catfight.components.TransformComponent;
-import com.davidbyttow.catfight.framework.animation.SequenceComponent;
 import com.davidbyttow.catfight.framework.input.InputComponent;
 import com.davidbyttow.catfight.framework.script.ScriptComponent;
 import com.davidbyttow.catfight.scripts.CatSequences;
@@ -70,7 +70,7 @@ public class GameWorld {
     physics.body.setUserData(player);
     player.add(physics);
 
-    SequenceComponent sequence = engine.createComponent(SequenceComponent.class);
+    ActorComponent sequence = engine.createComponent(ActorComponent.class);
     sequence.addSequence(CatSequences.IDLE);
     sequence.addSequence(CatSequences.WALK);
     sequence.addSequence(CatSequences.JUMP);
@@ -78,7 +78,6 @@ public class GameWorld {
     sequence.addSequence(CatSequences.JUMP_LAND);
     sequence.setSequence(CatSequences.IDLE.getName());
     player.add(sequence);
-
 
     AnimationComponent animation = engine.createComponent(AnimationComponent.class);
     player.add(animation);

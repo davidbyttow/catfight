@@ -1,7 +1,7 @@
 package com.davidbyttow.catfight.framework.animation;
 
-class SequenceState {
+class SequenceState<T> {
   int frame = -1;
-  Sequence current;
-  Sequence desired;
+  Sequence<T> current;
+  Sequence<T> desired;
 }

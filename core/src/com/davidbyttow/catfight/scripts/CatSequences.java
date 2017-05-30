@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.davidbyttow.catfight.Assets;
+import com.davidbyttow.catfight.components.ActorComponent;
 import com.davidbyttow.catfight.components.AnimationComponent;
 import com.davidbyttow.catfight.components.PhysicsComponent;
 import com.davidbyttow.catfight.components.TransformComponent;
@@ -44,12 +45,12 @@ public interface CatSequences {
     }
   }
 
-  Sequence IDLE = Sequence.builder("Idle", Assets.catIdle)
+  Sequence<Entity> IDLE = Sequence.<Entity>builder("Idle", Assets.catIdle)
       .tags(SequenceTags.IDLE)
       .update((entity, delta) -> {
         Body body = entity.getComponent(PhysicsComponent.class).body;
         AnimationComponent anim = entity.getComponent(AnimationComponent.class);
-        SequenceComponent seq = entity.getComponent(SequenceComponent.class);
+        ActorComponent seq = entity.getComponent(ActorComponent.class);
 
         updateNav(entity);
 
@@ -61,23 +62,23 @@ public interface CatSequences {
       })
       .build();
 
-  Sequence WALK = Sequence.builder("Walk", Assets.catWalk)
+  Sequence<Entity> WALK = Sequence.<Entity>builder("Walk", Assets.catWalk)
       .tags(SequenceTags.WALKING)
       .update((entity, delta) -> updateNav(entity))
       .loop(true)
       .build();
 
-  Sequence JUMP_LAND = Sequence.builder("JumpLand", Assets.catJumpEnd)
+  Sequence<Entity> JUMP_LAND = Sequence.<Entity>builder("JumpLand", Assets.catJumpEnd)
       .last((entity) -> {
-        SequenceComponent seq = entity.getComponent(SequenceComponent.class);
+        ActorComponent seq = entity.getComponent(ActorComponent.class);
         seq.setSequence(IDLE.getName());
       })
       .build();
 
-  Sequence JUMP_IN_AIR = Sequence.builder("JumpInAir", Assets.catJumpIdle)
+  Sequence<Entity> JUMP_IN_AIR = Sequence.<Entity>builder("JumpInAir", Assets.catJumpIdle)
       .update((entity, delta) -> {
         PhysicsComponent physics = entity.getComponent(PhysicsComponent.class);
-        SequenceComponent seq = entity.getComponent(SequenceComponent.class);
+        ActorComponent seq = entity.getComponent(ActorComponent.class);
         Body body = physics.body;
 
         // Hack for now
@@ -94,14 +95,14 @@ public interface CatSequences {
       .loop(true)
       .build();
 
-  Sequence JUMP = Sequence.builder("Jump", Assets.catJumpBegin)
+  Sequence<Entity> JUMP = Sequence.<Entity>builder("Jump", Assets.catJumpBegin)
       .enter((entity) -> {
         TransformComponent transform = entity.getComponent(TransformComponent.class);
         Body body = entity.getComponent(PhysicsComponent.class).body;
         body.applyLinearImpulse(0f, 4f, transform.pos.x, transform.pos.y, true);
       })
       .last((entity) -> {
-        SequenceComponent seq = entity.getComponent(SequenceComponent.class);
+        ActorComponent seq = entity.getComponent(ActorComponent.class);
         seq.setSequence(JUMP_IN_AIR.getName());
       })
       .build();

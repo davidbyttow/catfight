@@ -8,13 +8,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.davidbyttow.catfight.Catfight;
 import com.davidbyttow.catfight.framework.input.CompositeInputProcessor;
+import com.davidbyttow.catfight.framework.input.InputSystem;
 import com.davidbyttow.catfight.framework.script.ScriptSystem;
+import com.davidbyttow.catfight.systems.ActorSystem;
 import com.davidbyttow.catfight.systems.AnimationSystem;
 import com.davidbyttow.catfight.systems.CameraSystem;
-import com.davidbyttow.catfight.framework.input.InputSystem;
 import com.davidbyttow.catfight.systems.PhysicsSystem;
 import com.davidbyttow.catfight.systems.RenderingSystem;
-import com.davidbyttow.catfight.framework.animation.SequenceSystem;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -35,7 +35,7 @@ public class GameScreen extends ScreenAdapter {
     engine.addSystem(new PhysicsSystem(world));
     engine.addSystem(new CameraSystem());
     engine.addSystem(new ScriptSystem());
-    engine.addSystem(new SequenceSystem());
+    engine.addSystem(new ActorSystem());
     engine.addSystem(new AnimationSystem());
     engine.addSystem(new RenderingSystem(game.batcher, world));
     engine.addSystem(new InputSystem(inputProcessor));
