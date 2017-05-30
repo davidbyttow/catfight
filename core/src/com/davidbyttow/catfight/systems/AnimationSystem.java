@@ -7,17 +7,19 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.davidbyttow.catfight.components.AnimationComponent;
 import com.davidbyttow.catfight.components.TextureComponent;
-import com.davidbyttow.catfight.framework.animation.Animation;
 import com.davidbyttow.catfight.framework.animation.KeyFrame;
 import com.davidbyttow.catfight.framework.common.SystemPriorities;
 
 public class AnimationSystem extends IteratingSystem {
+
+  public static int PRIORITY = SystemPriorities.POST_TICK;
+
   private ComponentMapper<TextureComponent> textureMapper;
   private ComponentMapper<AnimationComponent> animationMapper;
 
   public AnimationSystem() {
     super(Family.all(TextureComponent.class, AnimationComponent.class).get(),
-        SystemPriorities.POST_TICK);
+        PRIORITY);
 
     textureMapper = ComponentMapper.getFor(TextureComponent.class);
     animationMapper = ComponentMapper.getFor(AnimationComponent.class);
@@ -28,9 +30,8 @@ public class AnimationSystem extends IteratingSystem {
     TextureComponent tc = textureMapper.get(entity);
     AnimationComponent ac = animationMapper.get(entity);
 
-    Animation<TextureRegion> anim = ac.animations.get(ac.animName);
-    if (anim != null) {
-      KeyFrame<TextureRegion> kf = anim.getKeyFrame(ac.animTime);
+    if (ac.anim != null) {
+      KeyFrame<TextureRegion> kf = ac.anim.getKeyFrame(ac.animTime);
       tc.region = kf.getRef();
     }
 

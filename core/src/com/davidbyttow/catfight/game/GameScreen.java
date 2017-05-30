@@ -14,6 +14,7 @@ import com.davidbyttow.catfight.systems.CameraSystem;
 import com.davidbyttow.catfight.systems.InputSystem;
 import com.davidbyttow.catfight.systems.PhysicsSystem;
 import com.davidbyttow.catfight.systems.RenderingSystem;
+import com.davidbyttow.catfight.systems.SequenceSystem;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -34,6 +35,7 @@ public class GameScreen extends ScreenAdapter {
     engine.addSystem(new PhysicsSystem(world));
     engine.addSystem(new CameraSystem());
     engine.addSystem(new ScriptSystem());
+    engine.addSystem(new SequenceSystem());
     engine.addSystem(new AnimationSystem());
     engine.addSystem(new RenderingSystem(game.batcher, world));
     engine.addSystem(new InputSystem(inputProcessor));

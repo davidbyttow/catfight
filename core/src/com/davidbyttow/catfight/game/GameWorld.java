@@ -15,9 +15,11 @@ import com.davidbyttow.catfight.components.AnimationComponent;
 import com.davidbyttow.catfight.components.CameraComponent;
 import com.davidbyttow.catfight.components.InputComponent;
 import com.davidbyttow.catfight.components.PhysicsComponent;
-import com.davidbyttow.catfight.framework.script.ScriptComponent;
+import com.davidbyttow.catfight.components.SequenceComponent;
 import com.davidbyttow.catfight.components.TextureComponent;
 import com.davidbyttow.catfight.components.TransformComponent;
+import com.davidbyttow.catfight.framework.animation.Sequence;
+import com.davidbyttow.catfight.framework.script.ScriptComponent;
 import com.davidbyttow.catfight.scripts.PlayerScript;
 import com.davidbyttow.catfight.scripts.SceneScript;
 import com.davidbyttow.catfight.systems.RenderingSystem;
@@ -68,13 +70,17 @@ public class GameWorld {
     physics.body.setUserData(player);
     player.add(physics);
 
+    SequenceComponent sequence = engine.createComponent(SequenceComponent.class);
+    sequence.sequences.put("idle", Sequence.fromAnim("idle", Assets.catIdle));
+    sequence.sequences.put("walk", Sequence.fromAnim("alk", Assets.catWalk));
+    sequence.sequences.put("jump_begin", Sequence.fromAnim("jump_begin", Assets.catJumpBegin));
+    sequence.sequences.put("jump_idle", Sequence.fromAnim("jump_idle", Assets.catJumpIdle));
+    sequence.sequences.put("jump_end", Sequence.fromAnim("jump_end", Assets.catJumpEnd));
+    sequence.sequence = "idle";
+    player.add(sequence);
+
+
     AnimationComponent animation = engine.createComponent(AnimationComponent.class);
-    animation.animations.put("idle", Assets.catIdle);
-    animation.animations.put("walk", Assets.catWalk);
-    animation.animations.put("jump_begin", Assets.catJumpBegin);
-    animation.animations.put("jump_idle", Assets.catJumpIdle);
-    animation.animations.put("jump_end", Assets.catJumpEnd);
-    animation.animName = "idle";
     player.add(animation);
 
     ScriptComponent script = engine.createComponent(ScriptComponent.class);

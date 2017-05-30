@@ -5,13 +5,13 @@ public interface SystemPriorities {
 
   int INPUT = -100;
 
-  int PRE_TICK = -1;
+  int PRE_TICK = -10;
   int TICK = 0;
-  int POST_TICK = 1;
+  int POST_TICK = 10;
 
   int PRE_RENDER = 200;
-  int RENDER = 201;
-  int POST_RENDER = 202;
+  int RENDER = 210;
+  int POST_RENDER = 220;
 
   int LAST = 999999;
 }
