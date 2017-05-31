@@ -16,13 +16,12 @@ public class SequenceComponent implements Component {
   }
 
   public float getElapsed() {
-    return state.elapsed;
+    return state.time;
   }
 
   public boolean hasTag(String tag) {
     return state.current.getTags().contains(tag);
   }
-
 
   public void addSequence(Sequence<Entity> sequence) {
     sequences.put(sequence.getName(), sequence);
