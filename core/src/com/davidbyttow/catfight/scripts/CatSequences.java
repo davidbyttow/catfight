@@ -5,25 +5,35 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Contact;
 import com.davidbyttow.catfight.Assets;
+import com.davidbyttow.catfight.components.ActorComponent;
 import com.davidbyttow.catfight.components.AnimationComponent;
 import com.davidbyttow.catfight.components.PhysicsComponent;
 import com.davidbyttow.catfight.components.TransformComponent;
 import com.davidbyttow.catfight.framework.animation.Sequence;
 import com.davidbyttow.catfight.framework.animation.SequenceComponent;
-import com.davidbyttow.catfight.framework.physics.Contacts;
 
 public interface CatSequences {
 
   static void updateNav(Entity entity) {
+    ActorComponent actor = entity.getComponent(ActorComponent.class);
     TransformComponent transform = entity.getComponent(TransformComponent.class);
     Body body = entity.getComponent(PhysicsComponent.class).body;
     SequenceComponent seq = entity.getComponent(SequenceComponent.class);
 
-    if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-      seq.setSequence(JUMP.getName());
-      return;
+    boolean waiting = seq.hasTag(SequenceTags.IDLE) || seq.hasTag(SequenceTags.WALKING);
+
+    if (waiting) {
+      if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+        seq.setSequence(JUMP.getName());
+        waiting = false;
+      } else if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
+        seq.setSequence(ATTACK_JAB.getName());
+        waiting = false;
+      } else if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+        seq.setSequence(ATTACK_STRAIGHT.getName());
+        waiting = false;
+      }
     }
 
     Vector2 vel = body.getLinearVelocity();
@@ -31,16 +41,22 @@ public interface CatSequences {
 
     float impulse = 0;
 
-    if (Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT)) {
-      impulse = -0.8f;
-      transform.facingLeft = true;
-    } else if (Gdx.input.isKeyPressed(Input.Keys.DPAD_RIGHT)) {
-      impulse = 0.8f;
-      transform.facingLeft = false;
+    if (waiting) {
+      if (Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT)) {
+        impulse = -0.8f;
+        transform.facingLeft = true;
+      } else if (Gdx.input.isKeyPressed(Input.Keys.DPAD_RIGHT)) {
+        impulse = 0.8f;
+        transform.facingLeft = false;
+      }
     }
 
     if (Math.abs(impulse) > 0 && Math.abs(vel.x) < 5f) {
       body.applyLinearImpulse(impulse, 0, pos.x, pos.y, true);
+    }
+
+    if (waiting && !actor.inAir && Math.abs(vel.len2()) <= 0) {
+      seq.setSequence(IDLE.getName());
     }
   }
 
@@ -76,18 +92,9 @@ public interface CatSequences {
 
   Sequence<Entity> JUMP_IN_AIR = Sequence.<Entity>builder("JumpInAir", Assets.catJumpIdle)
       .update((entity, delta) -> {
-        PhysicsComponent physics = entity.getComponent(PhysicsComponent.class);
+        ActorComponent actor = entity.getComponent(ActorComponent.class);
         SequenceComponent seq = entity.getComponent(SequenceComponent.class);
-        Body body = physics.body;
-
-        // Hack for now
-        boolean inAir = true;
-        for (Contact contact : body.getWorld().getContactList()) {
-          if (contact.isTouching() && Contacts.containsEntity(contact, entity)) {
-            inAir = false;
-          }
-        }
-        if (!inAir) {
+        if (!actor.inAir) {
           seq.setSequence(JUMP_LAND.getName());
         }
       })
@@ -95,14 +102,57 @@ public interface CatSequences {
       .build();
 
   Sequence<Entity> JUMP = Sequence.<Entity>builder("Jump", Assets.catJumpBegin)
-      .enter((entity) -> {
-        TransformComponent transform = entity.getComponent(TransformComponent.class);
+      .update((entity, delta) -> {
+        SequenceComponent seq = entity.getComponent(SequenceComponent.class);
+        if (seq.getElapsed() >= 0.05f) {
+          TransformComponent transform = entity.getComponent(TransformComponent.class);
+          Body body = entity.getComponent(PhysicsComponent.class).body;
+          body.applyLinearImpulse(0f, 4f, transform.pos.x, transform.pos.y, true);
+          seq.setSequence(JUMP_IN_AIR.getName());
+        }
+      })
+      .build();
+
+
+  Sequence<Entity> ATTACK_STRAIGHT = Sequence.<Entity>builder("AttackStraight", Assets.catAttackStraight)
+      .last((entity) -> {
+        SequenceComponent seq = entity.getComponent(SequenceComponent.class);
+        seq.setSequence(IDLE.getName());
+      })
+      .build();
+
+  Sequence<Entity> ATTACK_JAB = Sequence.<Entity>builder("AttackJab", Assets.catAttackJab)
+      .frame((entity, frame) -> {
         Body body = entity.getComponent(PhysicsComponent.class).body;
-        body.applyLinearImpulse(0f, 4f, transform.pos.x, transform.pos.y, true);
+        SequenceComponent seq = entity.getComponent(SequenceComponent.class);
+
+        switch (frame) {
+          case 0:
+          case 1:
+            if (Math.abs(body.getLinearVelocity().x) < 1f) {
+              float impulse = 0;
+              TransformComponent transform = entity.getComponent(TransformComponent.class);
+              if (Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT) && transform.facingLeft) {
+                impulse = -5f;
+              } else if (Gdx.input.isKeyPressed(Input.Keys.DPAD_RIGHT) && !transform.facingLeft) {
+                impulse = 5f;
+              }
+              if (Math.abs(impulse) > 0) {
+                body.applyLinearImpulse(impulse, 0f, transform.pos.x, transform.pos.y, true);
+              }
+            }
+            break;
+          case 2:
+            if (Gdx.input.isKeyPressed(Input.Keys.X)) {
+              seq.setSequence(ATTACK_STRAIGHT.getName());
+            }
+            break;
+        }
       })
       .last((entity) -> {
         SequenceComponent seq = entity.getComponent(SequenceComponent.class);
-        seq.setSequence(JUMP_IN_AIR.getName());
+        seq.setSequence(IDLE.getName());
       })
       .build();
+
 }

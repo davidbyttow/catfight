@@ -38,6 +38,7 @@ public class AnimationSystem extends IteratingSystem {
       }
     }
 
+    ac.lastAnimTime = ac.animTime;
     ac.animTime += ac.animSpeed * deltaTime;
   }
 }

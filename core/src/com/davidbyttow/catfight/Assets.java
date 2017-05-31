@@ -27,6 +27,8 @@ public final class Assets {
   public static Animation catJumpBegin;
   public static Animation catJumpIdle;
   public static Animation catJumpEnd;
+  public static Animation catAttackJab;
+  public static Animation catAttackStraight;
 
   public static void load() {
     forestBackgroundTexture = loadTexture("bg_forest01.png");
@@ -45,6 +47,11 @@ public final class Assets {
     catJumpBegin = SpriteAnimations.loadFromTag(catJumpSprite, "jump_begin", newRegionGenerator(catJumpTexture));
     catJumpIdle = SpriteAnimations.loadFromTag(catJumpSprite, "jump_idle", newRegionGenerator(catJumpTexture));
     catJumpEnd = SpriteAnimations.loadFromTag(catJumpSprite, "jump_end", newRegionGenerator(catJumpTexture));
+
+    Texture catAttackTexture = loadTexture("cat_attack.png");
+    SpriteSheetData catAttackSprite = loadSpriteSheet("cat_attack.json");
+    catAttackJab = SpriteAnimations.loadFromTag(catAttackSprite, "attack_jab", newRegionGenerator(catAttackTexture));
+    catAttackStraight = SpriteAnimations.loadFromTag(catAttackSprite, "attack_straight", newRegionGenerator(catAttackTexture));
   }
 
   public static Texture loadTexture(String file) {

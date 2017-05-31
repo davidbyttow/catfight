@@ -5,12 +5,14 @@ import com.badlogic.ashley.core.Component;
 import com.davidbyttow.catfight.framework.animation.Animation;
 
 public class AnimationComponent implements Component {
+  public float lastAnimTime;
   public float animTime;
   public float animSpeed = 1;
   public Animation anim;
 
   public void setAnim(Animation anim) {
     if (this.anim != anim) {
+      this.lastAnimTime = 0;
       this.animTime = 0;
       this.animSpeed = 1;
       this.anim = anim;

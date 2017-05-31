@@ -78,6 +78,8 @@ public class GameWorld {
     sequences.addSequence(CatSequences.JUMP);
     sequences.addSequence(CatSequences.JUMP_IN_AIR);
     sequences.addSequence(CatSequences.JUMP_LAND);
+    sequences.addSequence(CatSequences.ATTACK_JAB);
+    sequences.addSequence(CatSequences.ATTACK_STRAIGHT);
     sequences.setSequence(CatSequences.IDLE.getName());
     player.add(sequences);
 
@@ -85,7 +87,6 @@ public class GameWorld {
     player.add(animation);
 
     ActorComponent actor = engine.createComponent(ActorComponent.class);
-    actor.idleSequence = CatSequences.IDLE;
     player.add(actor);
 
     ScriptComponent script = engine.createComponent(ScriptComponent.class);

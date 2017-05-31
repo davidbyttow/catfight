@@ -22,6 +22,8 @@ public class SequenceSystem extends IteratingSystem {
     SequenceState<Entity> state = component.state;
     Sequence<Entity> current = component.state.current;
 
+    state.elapsed += delta;
+
     // First update the current running sequence
     if (current != null) {
       SequenceHooks<Entity> hooks = current.getHooks();
@@ -30,14 +32,13 @@ public class SequenceSystem extends IteratingSystem {
       Animation anim = current.getAnimation();
       KeyFrame keyFrame = anim.getKeyFrame(ac.animTime);
       int frame = keyFrame.getIndex();
-      int lastFrame = anim.getLastKeyFrame().getIndex();
       if (frame > state.frame) {
         for (int i = state.frame + 1; i <= frame; ++i) {
           hooks.frame.accept(entity, i);
-          if (i == lastFrame) {
-            hooks.last.accept(entity);
-          }
         }
+      }
+      if (ac.lastAnimTime < anim.getDuration() && ac.animTime >= anim.getDuration()) {
+        hooks.last.accept(entity);
       }
 
       component.state.frame = frame;
@@ -53,6 +54,7 @@ public class SequenceSystem extends IteratingSystem {
       next.getHooks().enter.accept(entity);
       state.desired = null;
       state.current = next;
+      state.elapsed = 0;
 
       Animation anim = next.getAnimation();
       ac.setAnim(anim);

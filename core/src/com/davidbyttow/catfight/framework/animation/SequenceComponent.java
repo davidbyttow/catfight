@@ -11,6 +11,19 @@ public class SequenceComponent implements Component {
   private Map<String, Sequence<Entity>> sequences = new HashMap<>();
   SequenceState<Entity> state = new SequenceState<>();
 
+  public Sequence<Entity> get() {
+    return state.current;
+  }
+
+  public float getElapsed() {
+    return state.elapsed;
+  }
+
+  public boolean hasTag(String tag) {
+    return state.current.getTags().contains(tag);
+  }
+
+
   public void addSequence(Sequence<Entity> sequence) {
     sequences.put(sequence.getName(), sequence);
   }
