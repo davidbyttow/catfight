@@ -32,6 +32,10 @@ public class Sequence<T> {
     return hooks;
   }
 
+  public Set<String> getTags() {
+    return tags;
+  }
+
   public static <T> Builder<T> builder(String name, Animation animation) {
     return new Builder<>(new Sequence<>(name, animation));
   }

@@ -6,32 +6,26 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.davidbyttow.catfight.components.AnimationComponent;
 import com.davidbyttow.catfight.systems.AnimationSystem;
 
-public abstract class SequenceSystem<T> extends IteratingSystem {
+public class SequenceSystem extends IteratingSystem {
 
-  private final Class<? extends SequenceComponent<T>> type;
-
-  public SequenceSystem(Class<? extends SequenceComponent<T>> type) {
-    super(Family.all(type, AnimationComponent.class).get(),
+  // TODO(d): Decouple animation system from here
+  public SequenceSystem() {
+    super(Family.all(SequenceComponent.class, AnimationComponent.class).get(),
         AnimationSystem.PRIORITY - 1);
-    this.type = type;
   }
-
-  protected abstract T adapt(Entity entity);
 
   @Override
   public final void processEntity(Entity entity, float delta) {
-    SequenceComponent<T> sc = entity.getComponent(type);
+    SequenceComponent component = entity.getComponent(SequenceComponent.class);
     AnimationComponent ac = entity.getComponent(AnimationComponent.class);
 
-    SequenceState<T> state = sc.state;
-    Sequence<T> current = sc.state.current;
-
-    T actor = adapt(entity);
+    SequenceState<Entity> state = component.state;
+    Sequence<Entity> current = component.state.current;
 
     // First update the current running sequence
     if (current != null) {
-      SequenceHooks<T> hooks = current.getHooks();
-      hooks.update.accept(actor, delta);
+      SequenceHooks<Entity> hooks = current.getHooks();
+      hooks.update.accept(entity, delta);
 
       Animation anim = current.getAnimation();
       KeyFrame keyFrame = anim.getKeyFrame(ac.animTime);
@@ -39,30 +33,30 @@ public abstract class SequenceSystem<T> extends IteratingSystem {
       int lastFrame = anim.getLastKeyFrame().getIndex();
       if (frame > state.frame) {
         for (int i = state.frame + 1; i <= frame; ++i) {
-          hooks.frame.accept(actor, i);
+          hooks.frame.accept(entity, i);
           if (i == lastFrame) {
-            hooks.last.accept(actor);
+            hooks.last.accept(entity);
           }
         }
       }
 
-      sc.state.frame = frame;
+      component.state.frame = frame;
     }
 
     // It's possible a transition occurs while the script runs.
     // TODO(d): Carry over and run the frames remaining as needed
-    Sequence<T> next = state.desired;
+    Sequence<Entity> next = state.desired;
     if (next != null && current != next) {
       if (current != null) {
-        current.getHooks().exit.accept(actor);
+        current.getHooks().exit.accept(entity);
       }
-      next.getHooks().enter.accept(actor);
+      next.getHooks().enter.accept(entity);
       state.desired = null;
       state.current = next;
 
       Animation anim = next.getAnimation();
       ac.setAnim(anim);
-      sc.state.frame = -1;
+      component.state.frame = -1;
     }
   }
 }

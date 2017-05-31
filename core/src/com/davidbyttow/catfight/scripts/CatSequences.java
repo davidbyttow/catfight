@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.davidbyttow.catfight.Assets;
-import com.davidbyttow.catfight.components.ActorComponent;
 import com.davidbyttow.catfight.components.AnimationComponent;
 import com.davidbyttow.catfight.components.PhysicsComponent;
 import com.davidbyttow.catfight.components.TransformComponent;
@@ -50,7 +49,7 @@ public interface CatSequences {
       .update((entity, delta) -> {
         Body body = entity.getComponent(PhysicsComponent.class).body;
         AnimationComponent anim = entity.getComponent(AnimationComponent.class);
-        ActorComponent seq = entity.getComponent(ActorComponent.class);
+        SequenceComponent seq = entity.getComponent(SequenceComponent.class);
 
         updateNav(entity);
 
@@ -70,7 +69,7 @@ public interface CatSequences {
 
   Sequence<Entity> JUMP_LAND = Sequence.<Entity>builder("JumpLand", Assets.catJumpEnd)
       .last((entity) -> {
-        ActorComponent seq = entity.getComponent(ActorComponent.class);
+        SequenceComponent seq = entity.getComponent(SequenceComponent.class);
         seq.setSequence(IDLE.getName());
       })
       .build();
@@ -78,7 +77,7 @@ public interface CatSequences {
   Sequence<Entity> JUMP_IN_AIR = Sequence.<Entity>builder("JumpInAir", Assets.catJumpIdle)
       .update((entity, delta) -> {
         PhysicsComponent physics = entity.getComponent(PhysicsComponent.class);
-        ActorComponent seq = entity.getComponent(ActorComponent.class);
+        SequenceComponent seq = entity.getComponent(SequenceComponent.class);
         Body body = physics.body;
 
         // Hack for now
@@ -102,7 +101,7 @@ public interface CatSequences {
         body.applyLinearImpulse(0f, 4f, transform.pos.x, transform.pos.y, true);
       })
       .last((entity) -> {
-        ActorComponent seq = entity.getComponent(ActorComponent.class);
+        SequenceComponent seq = entity.getComponent(SequenceComponent.class);
         seq.setSequence(JUMP_IN_AIR.getName());
       })
       .build();

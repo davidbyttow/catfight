@@ -17,8 +17,10 @@ import com.davidbyttow.catfight.components.CameraComponent;
 import com.davidbyttow.catfight.components.PhysicsComponent;
 import com.davidbyttow.catfight.components.TextureComponent;
 import com.davidbyttow.catfight.components.TransformComponent;
+import com.davidbyttow.catfight.framework.animation.SequenceComponent;
 import com.davidbyttow.catfight.framework.input.InputComponent;
 import com.davidbyttow.catfight.framework.script.ScriptComponent;
+import com.davidbyttow.catfight.scripts.ActorScript;
 import com.davidbyttow.catfight.scripts.CatSequences;
 import com.davidbyttow.catfight.scripts.PlayerScript;
 import com.davidbyttow.catfight.scripts.SceneScript;
@@ -70,19 +72,24 @@ public class GameWorld {
     physics.body.setUserData(player);
     player.add(physics);
 
-    ActorComponent sequence = engine.createComponent(ActorComponent.class);
-    sequence.addSequence(CatSequences.IDLE);
-    sequence.addSequence(CatSequences.WALK);
-    sequence.addSequence(CatSequences.JUMP);
-    sequence.addSequence(CatSequences.JUMP_IN_AIR);
-    sequence.addSequence(CatSequences.JUMP_LAND);
-    sequence.setSequence(CatSequences.IDLE.getName());
-    player.add(sequence);
+    SequenceComponent sequences = engine.createComponent(SequenceComponent.class);
+    sequences.addSequence(CatSequences.IDLE);
+    sequences.addSequence(CatSequences.WALK);
+    sequences.addSequence(CatSequences.JUMP);
+    sequences.addSequence(CatSequences.JUMP_IN_AIR);
+    sequences.addSequence(CatSequences.JUMP_LAND);
+    sequences.setSequence(CatSequences.IDLE.getName());
+    player.add(sequences);
 
     AnimationComponent animation = engine.createComponent(AnimationComponent.class);
     player.add(animation);
 
+    ActorComponent actor = engine.createComponent(ActorComponent.class);
+    actor.idleSequence = CatSequences.IDLE;
+    player.add(actor);
+
     ScriptComponent script = engine.createComponent(ScriptComponent.class);
+    script.entityScripts.add(new ActorScript());
     script.entityScripts.add(new PlayerScript());
     player.add(script);
 
