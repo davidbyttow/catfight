@@ -69,8 +69,7 @@ public class GameWorld {
     physics.body.setUserData(player);
     player.add(physics);
 
-    ActorComponent actor = engine.createComponent(ActorComponent.class);
-    actor.entity = player;
+    ActorComponent actor = ActorComponent.create(engine, player);
     actor.addSequence(CatSequences.IDLE);
     actor.addSequence(CatSequences.WALK);
     actor.addSequence(CatSequences.JUMP);

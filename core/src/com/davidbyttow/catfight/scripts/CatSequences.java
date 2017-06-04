@@ -111,11 +111,23 @@ public interface CatSequences {
       .build();
 
 
-  Sequence<ActorComponent> ATTACK_STRAIGHT = Sequence.<ActorComponent>builder("AttackStraight", Assets.catAttackStraight)
-      .last((actor) -> {
-        actor.setSequence(IDLE.getName());
-      })
-      .build();
+    Sequence<ActorComponent> ATTACK_STRAIGHT = Sequence.<ActorComponent>builder("AttackStraight", Assets.catAttackStraight)
+        .frame((actor, frame) -> {
+          switch (frame) {
+            case 1:
+              actor.checkCollision((entity) -> {
+
+              });
+              break;
+          }
+        })
+        .exit((actor) -> {
+
+        })
+        .last((actor) -> {
+          actor.setSequence(IDLE.getName());
+        })
+        .build();
 
   Sequence<ActorComponent> ATTACK_JAB = Sequence.<ActorComponent>builder("AttackJab", Assets.catAttackJab)
       .frame((actor, frame) -> {
