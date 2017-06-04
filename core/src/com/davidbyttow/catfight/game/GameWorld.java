@@ -12,17 +12,14 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.davidbyttow.catfight.Assets;
 import com.davidbyttow.catfight.components.ActorComponent;
-import com.davidbyttow.catfight.components.AnimationComponent;
 import com.davidbyttow.catfight.components.CameraComponent;
 import com.davidbyttow.catfight.components.PhysicsComponent;
 import com.davidbyttow.catfight.components.TextureComponent;
 import com.davidbyttow.catfight.components.TransformComponent;
-import com.davidbyttow.catfight.framework.animation.SequenceComponent;
 import com.davidbyttow.catfight.framework.input.InputComponent;
 import com.davidbyttow.catfight.framework.script.ScriptComponent;
 import com.davidbyttow.catfight.scripts.ActorScript;
 import com.davidbyttow.catfight.scripts.CatSequences;
-import com.davidbyttow.catfight.scripts.PlayerScript;
 import com.davidbyttow.catfight.scripts.SceneScript;
 import com.davidbyttow.catfight.systems.RenderingSystem;
 
@@ -72,26 +69,20 @@ public class GameWorld {
     physics.body.setUserData(player);
     player.add(physics);
 
-    SequenceComponent sequences = engine.createComponent(SequenceComponent.class);
-    sequences.addSequence(CatSequences.IDLE);
-    sequences.addSequence(CatSequences.WALK);
-    sequences.addSequence(CatSequences.JUMP);
-    sequences.addSequence(CatSequences.JUMP_IN_AIR);
-    sequences.addSequence(CatSequences.JUMP_LAND);
-    sequences.addSequence(CatSequences.ATTACK_JAB);
-    sequences.addSequence(CatSequences.ATTACK_STRAIGHT);
-    sequences.setSequence(CatSequences.IDLE.getName());
-    player.add(sequences);
-
-    AnimationComponent animation = engine.createComponent(AnimationComponent.class);
-    player.add(animation);
-
     ActorComponent actor = engine.createComponent(ActorComponent.class);
+    actor.entity = player;
+    actor.addSequence(CatSequences.IDLE);
+    actor.addSequence(CatSequences.WALK);
+    actor.addSequence(CatSequences.JUMP);
+    actor.addSequence(CatSequences.JUMP_IN_AIR);
+    actor.addSequence(CatSequences.JUMP_LAND);
+    actor.addSequence(CatSequences.ATTACK_JAB);
+    actor.addSequence(CatSequences.ATTACK_STRAIGHT);
+    actor.setSequence(CatSequences.IDLE.getName());
     player.add(actor);
 
     ScriptComponent script = engine.createComponent(ScriptComponent.class);
     script.entityScripts.add(new ActorScript());
-    script.entityScripts.add(new PlayerScript());
     player.add(script);
 
     engine.addEntity(player);
